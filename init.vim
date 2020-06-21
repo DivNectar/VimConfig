@@ -1,5 +1,9 @@
 if exists('g:vscode')
-  " Inside of VS Code
+  " I use the Neo Vim extension inside of vsCode. It shares this
+  " same config file. So I check to see if we're in vsCode, and if
+  " we are, then I only set these couple of hotkeys! 
+  " We don't need completion and statusbar and stuff inside of vsCode...
+  " we just want our custom vim keybindings.
   
   " Navigate windows with ctrl+hjkl
   function! WinMove(key)
@@ -20,42 +24,57 @@ if exists('g:vscode')
   nnoremap <silent> <C-k> :call WinMove('k')<CR>
   nnoremap <silent> <C-l> :call WinMove('l')<CR>
 else
-  " Regular Vim Instance Settings
+  " Regular Vim Instance Settings, either in the GUI or term.
+  " Delcare our plugins below.
   call plug#begin()
+  " COC provides a completion engine for many languages.
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'HerringtonDarkholme/yats.vim'
+  " NERDTree gives us a file explorer
   Plug 'preservim/nerdtree'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'
+  " FZF is a fuzzy file finder. Haven't quite figured out how
+  " to config for windows yet.
   Plug 'jiangmiao/auto-pairs'
   Plug 'machakann/vim-sandwich'
   Plug 'tpope/vim-sleuth'
   Plug 'editorconfig/editorconfig-vim'
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive'
+  " give us a lean statusline at the bottom
   Plug 'bling/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
-  Plug 'ayu-theme/ayu-vim'
   Plug 'Yggdroot/indentLine'
-  Plug 'ryanoasis/vim-devicons'
+  " auto adjusts spaces or tabs
   Plug 'godlygeek/tabular'
   Plug 'plasticboy/vim-markdown'
   Plug 'vimwiki/vimwiki'
+  " A glob of syntax plugins for vim.
   Plug 'sheerun/vim-polyglot'
+  " Awesome commenting library for vim.
   Plug 'preservim/nerdcommenter'
+  " Startup screen for vim
   Plug 'mhinz/vim-startify'
+  " Fuzzy file finder for vim
   Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'dracula/vim', { 'as': 'dracula' }
   Plug 'miyakogi/seiya.vim'
   Plug 'OmniSharp/omnisharp-vim'
+  " Provides PHP features
   Plug 'stanangeloff/php.vim'
+  " Provides Rust features. Use COC rust language server for completion.
   Plug 'rust-lang/rust.vim'
+
+  " Themes are here
   Plug 'sonph/onehalf', {'rtp': 'vim/'}
+  Plug 'ayu-theme/ayu-vim'
+  Plug 'dracula/vim', { 'as': 'dracula' }
+  " Provides icons for statusline / NERDTree
+  Plug 'ryanoasis/vim-devicons'
   call plug#end()
 
   let g:OmniSharp_server_stdio = 1
 
-    " set da m f theme
+    " Checks if the instance of nVim is using NeoVide, the
+    " GUI wrapper I use for NeoVim sometimes.
   if exists('neovide')
     set guioptions-=T  " no toolbar
     let ayucolor="dark"
@@ -63,7 +82,6 @@ else
     colorscheme ayu
     hi Todo guifg=#40ffff guibg=#606060
     set lines=50 columns=96 linespace=0
-    " set guifont=Fira\ Mono\ for\ Powerline:h16
     set guifont=Delugia\ Nerd\ Font:h16
     " Hard to nav directories in neovide to me...
     " so just jump me to my default code directory :)
@@ -88,8 +106,8 @@ else
   " Enable the list of buffers
   let g:airline#extensions#tabline#enabled = 1
 
-" Show just the filename
-let g:airline#extensions#tabline#fnamemod = ':t'
+  " Show just the filename
+  let g:airline#extensions#tabline#fnamemod = ':t'
 
   let g:NERDTreeDirArrowExpandable = '▸'
   let g:NERDTreeDirArrowCollapsible = '▾'
@@ -104,10 +122,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
   let g:vim_markdown_new_list_item_indent = 2
 
-  " Maps ; to find files
-  map ; :Files<CR>
-
-  " Command for prettier
+  " Command for prettier. Just run :Prettier
   command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
   " Navigate windows with ctrl+hjkl
